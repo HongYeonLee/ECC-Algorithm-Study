@@ -1,6 +1,6 @@
 import collections #덱 사용하기 위해 임포트
 
-n, m = map(int, input().split()) #큐의 크기 n과 뽑아내려는 수의 개수 m 입력받음
+n, m = map(int, input().split()) #덱의 크기 n과 뽑아내려는 수의 개수 m 입력받음
 
 dq = collections.deque(range(1, n+1))#덱 생성, 1부터 n까지의 수를 담아서 덱 생성, 빈 상태로 만들면 pop연산 불가
 numbers = list(map(int, input().split()))# 뽑을 숫자들을 담은 리스트, 여기서는 편의를 위해 원소의 위치 = 원소의 값으로 설정함
