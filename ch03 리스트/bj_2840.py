@@ -1,35 +1,37 @@
 import collections
 
-n, k = map(int, input().split())
-s = []
-dq = collections.deque()
+n, k = map(int, input().split()) #바퀴의 칸수(덱의 크기), 바퀴를 돌리는 횟수를 입력받음
+s = [] #덱을 오른쪽으로 밀 횟수와 맨 왼쪽에 대입할 문자를 튜플 형태로 저장할 리스트
+dq = collections.deque(['?'] * n) #덱을 전부 '?'로 초기화함
 result = []
+
+# 덱을 오른쪽으로 밀 횟수와 덱의 맨 왼쪽에 대입할 문자를 입력 받음
 for i in range(k):
     num, char = input().split()
     s.append((int(num), char))
 
-for i in range(n):
-    dq.append('?')
-
-for num, char in s:
-    dq.rotate(num)
-    if dq[0] == '?':
-        dq[0] = char
-    elif dq[0] == char:
-        continue
-    else:
-        result = '!'
+for num, char in s: # 튜플에 저장된 회전 횟수와 문자를 하나씩 꺼내서
+    dq.rotate(num) # 덱을 먼저 오른쪽으로 회전(밀기)시킨 후
+    if dq[0] == '?': #덱의 맨 왼쪽 요소가 '?'라면 아무 문자가 대입된 적 없다는 뜻이므로
+        dq[0] = char #해당 문자를 대입한다
+    elif dq[0] == char: #만약 대입할 문자와 덱의 맨 왼쪽 요소의 문자가 같다면
+        continue #그건 바퀴가 한 바퀴 돌아서 다시 같은 숫자를 가리킨 것이니 다음 튜플로 넘어간다
+    else: #덱의 맨 왼쪽 요소가 '?'도 아니고 대입할 문자와 같은 문자도 아니라면
+        result = '!' # 같은 자리에 서로 다른 문자가 위치하는 것이므로 이 행운의 바퀴는 존재하지 않는다
         break
     result = dq
 
-seen = set()
+#'바퀴에 같은 글자는 두 번 이상 등장하지 않는다' 라는 조건은 입력 값으로 중복을 주지 않는 다는 뜻이 아니라
+# 바퀴(덱)에 서로 다른 위치에 같은 문자가 있으면 이 행운의 바퀴는 존재하지 않는다는 뜻이다
+# 따라서 덱 중복 검사를 해야하므로 중복 요소가 존재할 수 없는 집합을 이용한다
+seen = set() #덱에 저장된 문자들을 저장할 집합
 
-for char in dq:
-    if char in seen and char != '?':
-        result = '!'
+for char in dq:#덱에 저장된 문자들을 하나씩 꺼내서
+    if char in seen and char != '?': #해당 문자가 중복 검사 집합에 이미 존재하는데 '?'가 아닐 경우
+        result = '!' #같은 문자들이 서로 다른 위치에 존재한다는 뜻이므로 행운의 바퀴 존재x
         break
     else:
-        seen.add(char)
+        seen.add(char) #집합에 아직 문자를 기록하지 않았다면 기록한다
     
 
 print("".join(result))
