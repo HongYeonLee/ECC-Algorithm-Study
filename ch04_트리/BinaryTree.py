@@ -11,6 +11,9 @@ class BTNode:
         self.data = elem
         self.left = left
         self.right = right
+
+    def isLeaf(self): #단말 노드인지 확인하는 함수
+        return self.left is None and self.right is None
     
 
 #전위 순회
